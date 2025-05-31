@@ -1,8 +1,9 @@
 # Workout Tracker API
-A RESTful API built with Node.js, Express, TypeScript, and PostgreSQL that allows users to track their workouts, create workout plans, and log progress over time. This API supports user authentication, exercise management, workout creation, and progress reporting.
 
+A RESTful API built with Node.js, Express, Typescript, and PostgreSQL that allows users to track their workouts, create workout plans, and log progress over time. This API supports user authentication, exercise management, workout creation, and progress reporting.
 
 ## Database Schema
+
 This API uses **PostgreSQL** as the database. You can generate the tables by executing the following SQL statements:
 
 ```sql
