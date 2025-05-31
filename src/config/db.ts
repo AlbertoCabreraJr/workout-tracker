@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 
-export const pool = new Pool({
+export const db = new Pool({
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || "5432"),
   user: process.env.DB_USER,
@@ -11,7 +11,7 @@ export const pool = new Pool({
 
 export const connectDB = async () => {
   try {
-    const client = await pool.connect();
+    const client = await db.connect();
     console.log("✅ Connected to database");
     client.release();
   } catch (error) {
