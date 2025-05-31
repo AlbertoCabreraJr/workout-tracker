@@ -14,8 +14,11 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.28.0",
+    "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
+    "@types/morgan": "^1.9.9",
     "@types/node": "^22.15.29",
+    "@types/pg": "^8.15.2",
     "@typescript-eslint/eslint-plugin": "^8.33.0",
     "@typescript-eslint/parser": "^8.33.0",
     "eslint": "^9.28.0",
