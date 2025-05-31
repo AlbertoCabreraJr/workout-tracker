@@ -58,3 +58,6 @@ CREATE TABLE workout_log_items (
   weight INTEGER
 );
 ```
+## Entity Relationship Diagram
+![Workout Tracker Database - Page 1](https://github.com/user-attachments/assets/ef918085-8acd-429e-a87a-e5cc7236d588)
+
