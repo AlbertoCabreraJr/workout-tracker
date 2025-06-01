@@ -1,7 +1,7 @@
-import { createUser, getUserByEmail, getUserById } from "../models/users.model";
+import { UserModel } from "../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../types/User";
+import { User } from "../types";
 
 type JwtPayload = {
   userId: string;
@@ -25,7 +25,13 @@ type RefreshTokenResult = {
 } & GenerateTokenResult;
 
 export class AuthService {
-  generateTokens(userId: string): GenerateTokenResult {
+  userModel: UserModel;
+
+  constructor() {
+    this.userModel = new UserModel();
+  }
+
+  generateTokens(userId: number): GenerateTokenResult {
     const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET as string, {
       expiresIn: "15m",
     });
@@ -45,24 +51,24 @@ export class AuthService {
     email: string;
     password: string;
   }): Promise<SignupResult> {
-    const user = await getUserByEmail({ email: args.email });
+    const user = await this.userModel.getUserByEmail({ email: args.email });
     if (user) {
       throw new Error("User already exists");
     }
 
     const hashedPassword = await bcrypt.hash(args.password, 10);
-    const newUser = await createUser({
+    const newUser = await this.userModel.createUser({
       email: args.email,
       password: hashedPassword,
     });
 
-    const { accessToken, refreshToken } = this.generateTokens(newUser.id);
+    const { accessToken, refreshToken } = this.generateTokens(newUser.user_id);
 
     return { accessToken, refreshToken, user: newUser };
   }
 
   async login(args: { email: string; password: string }): Promise<LoginResult> {
-    const user = await getUserByEmail({ email: args.email });
+    const user = await this.userModel.getUserByEmail({ email: args.email });
     if (!user) {
       throw new Error("User not found");
     }
@@ -71,7 +77,7 @@ export class AuthService {
       throw new Error("Invalid password");
     }
 
-    const { accessToken, refreshToken } = this.generateTokens(user.id);
+    const { accessToken, refreshToken } = this.generateTokens(user.user_id);
 
     return { accessToken, refreshToken, user };
   }
@@ -88,13 +94,13 @@ export class AuthService {
       throw new Error("Invalid refresh token");
     }
 
-    const user = await getUserById({ id: decoded.userId });
+    const user = await this.userModel.getUserById({ id: decoded.userId });
 
     if (!user) {
       throw new Error("User not found");
     }
 
-    const { accessToken, refreshToken } = this.generateTokens(user.id);
+    const { accessToken, refreshToken } = this.generateTokens(user.user_id);
 
     return { accessToken, refreshToken, user };
   }
@@ -109,7 +115,7 @@ export class AuthService {
       throw new Error("Invalid access token");
     }
 
-    const user = await getUserById({ id: decoded.userId });
+    const user = await this.userModel.getUserById({ id: decoded.userId });
     return user;
   }
 }

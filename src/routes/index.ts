@@ -8,5 +8,6 @@ const router = Router();
 router.use("/auth", authRoutes);
 router.use("/workouts", workoutRoutes);
 router.use("/reports", reportRoutes);
+router.use("/workout-items", workoutItemRoutes);
 
 export default router;
