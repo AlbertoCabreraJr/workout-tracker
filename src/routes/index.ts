@@ -2,6 +2,7 @@ import { Router } from "express";
 import authRoutes from "./auth.routes";
 import workoutRoutes from "./workout.routes";
 import reportRoutes from "./report.routes";
+import workoutItemRoutes from "./workout-item.routes";
 
 const router = Router();
 
